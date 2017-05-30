@@ -1,6 +1,7 @@
 import Control.Exception
 import System.IO
 import System.IO.Error
+import System.Process
 
 type Players = [Player]
 type Name = String
@@ -31,6 +32,23 @@ fileLoad = do
             ioError error
 
 menu :: Players -> IO Players
-menu data_file = do
+menu _data = do
+              system "clear"
               putStrLn "Tic Tae Toe Hs"
-              return data_file
+              putStrLn "\n Type 1 to register user"
+              putStrLn "\n Type 2 to play"
+              putStrLn "\n Type 3 to show raking"
+              putStrLn "\n Type 0 to exit"
+              putStrLn "\n Options:"
+              op <- getChar
+              executeOptions _data op
+
+executeOptions :: Players -> Char -> IO Players
+executeOptions _data '0' = do
+                            putStrLn "\n Bye"
+                            return _data
+executeOptions _data _ = do
+                            putStrLn "\n Invalid option, try again..."
+                            putStr "\nPress <Enter> to back to the menu..."
+                            getChar
+                            menu _data
